@@ -1,0 +1,1524 @@
+# Automobile-Management
+The application is an user interactive based made using tkinter in python. 
+import tkinter as tk                                                       #importing all required modules form python
+from tkinter import ttk
+import mysql.connector as sq
+import tkinter.messagebox as msg
+from PIL import Image,ImageTk
+from tkinter import PhotoImage
+import random
+import urllib
+import webbrowser
+t=tk.Tk()
+ob=sq.connect(host='localhost',user='root',password='bermu',database='deep')
+cur=ob.cursor()
+t.wm_iconbitmap("favicon.ico")                    #Giving icon to tkinter window
+t.geometry('1500x750+15+15')
+t.resizable(False,False)
+t.title('HYUNDAI MOTORS')
+t['bg']='black'
+def sign_up():                                              #Sign up Function
+     if (('@' in e.get() and '.com' in e.get()) and len(p.get())==10):
+     
+
+          try:
+               cur.execute('insert into user_info values (%s,%s,%s,%s)',(n.get(),e.get(),p.get(),pas.get()))
+               ob.commit()
+               msg.showinfo(title='Status',message='Sign Up Successfull')
+               global title_sign
+               global inputs_sign
+               global e1
+               global l
+               global e2
+               global e3
+               global e4
+               global sign
+               global log_ask
+               
+               title_sign.destroy()
+               inputs_sign.destroy()
+               e1.destroy()
+               e2.destroy()
+               e3.destroy()
+               e4.destroy()
+               l.destroy()
+               sign.destroy()
+               log_ask.destroy()
+               global label
+               label=tk.Label(t,text='WELCOME TO HYUNDAI',bg='black',fg='white',font='GOUDY  50 underline')
+               label.place(x='450',y='275')
+               def santro(name='Santro'):                                  #Here are function for getting details of cars and theirs images.
+                    label.destroy()
+                    def buy():
+                         mg=msg.askyesno('Buy','Do You Want To Buy This Car')
+                         if mg:
+                              message='You Owned '+name+' car'
+                              msg.showinfo('Buy',message)
+                              bu1['state']='disable'
+                    def cart():
+                         msg.showinfo('cart','Successfully added to cart')
+                         bu2['state']='disable'
+                    label.destroy()
+                    cur.execute('select * from hyundai where car_name=%s',(name,))
+                    text=cur.fetchone()
+                    name_title=tk.Frame(t,bg='black')
+                    tk.Label(name_title,text=name,font='GOUDY 50 bold',fg='yellow',bg='black').pack()
+                    name_title.pack()
+                    details=tk.Frame(t,bg='black',padx=50,pady=50)
+                    textbox=tk.Text(details,bg='dark blue',fg='white')
+                    specification=['Car','Brand','Price','Bodystyle','Layout','Class','Engine','Transmission','Length','Breadth','Height','Wheelbase','Seating Capacity']
+                    for i in range(0,len(specification)):
+                         textbox.insert('end',specification[i]+' : '+text[i]+'\n')
+                         textbox.pack()
+                    details.pack(side='left')
+                    frame_image=tk.Frame(t,borderwidth=10,padx=100,pady=30,bg='black')
+                    textbox2=tk.Text(frame_image)
+                    image_name=str(name)+'.jpg'
+                    image=Image.open(image_name)
+                    photo=ImageTk.PhotoImage(image)
+                    img=tk.Label(textbox2,image=photo,bg='dark blue',fg='white')
+                    img.image=photo
+                    img.pack()
+                    bu1=tk.Button(frame_image,text='BUY NOW',command=buy,bg='orange',fg='black')
+                    bu1.pack(side='bottom',fill='x')
+                    bu2=tk.Button(frame_image,text='ADD TO CART',command=cart,bg='orange',fg='black')
+                    bu2.pack(side='bottom',fill='x')
+                    textbox2.pack()
+                    frame_image.pack(side='right')
+                    def exit_():
+                         global label
+                         name_title.destroy()
+                         details.destroy()
+                         frame_image.destroy()
+                         exit_frame.destroy()
+                         label=tk.Label(t,text='WELCOME TO HYUNDAI',bg='black',fg='white',font='GOUDY  50 underline')
+                         label.place(x='450',y='275')
+                    exit_frame=tk.Frame(t)
+                    tk.Button(exit_frame,text='Back',command=exit_,bg='yellow',fg='black',font='GOUDY 8 bold').pack()
+                    exit_frame.place(x=100,y=100)
+               def grand_i10(name='Grand i10'):
+                    label.destroy()
+                    def buy():
+                         mg=msg.askyesno('Buy','Do You Want To Buy This Car')
+                         if mg:
+                              message='You Owned '+name+' car'
+                              msg.showinfo('Buy',message)
+                              bu1['state']='disable'
+                    def cart():
+                         msg.showinfo('cart','Successfully added to cart')
+                         bu2['state']='disable'
+                    label.destroy()
+                    cur.execute('select * from hyundai where car_name=%s',(name,))
+                    text=cur.fetchone()
+
+                    name_title=tk.Frame(t,bg='black')
+                    tk.Label(name_title,text=name,font='GOUDY 50 bold',fg='yellow',bg='black').pack()
+                    name_title.pack()
+                    details=tk.Frame(t,bg='black',padx=50,pady=50)
+                    textbox=tk.Text(details,bg='dark blue',fg='white')
+                    specification=['Car','Brand','Price','Bodystyle','Layout','Class','Engine','Transmission','Length','Breadth','Height','Wheelbase','Seating Capacity']
+                    for i in range(0,len(specification)):
+                         textbox.insert('end',specification[i]+' : '+text[i]+'\n')
+                         textbox.pack()
+                    details.pack(side='left')
+                    frame_image=tk.Frame(t,borderwidth=10,padx=100,pady=30,bg='black')
+                    textbox2=tk.Text(frame_image)
+                    image_name=str(name)+'.jpg'
+                    image=Image.open(image_name)
+                    photo=ImageTk.PhotoImage(image)
+                    img=tk.Label(textbox2,image=photo,bg='dark blue',fg='white')
+                    img.image=photo
+                    img.pack()
+                    bu1=tk.Button(frame_image,text='BUY NOW',command=buy,bg='orange',fg='black')
+                    bu1.pack(side='bottom',fill='x')
+                    bu2=tk.Button(frame_image,text='ADD TO CART',command=cart,bg='orange',fg='black')
+                    bu2.pack(side='bottom',fill='x')
+                    textbox2.pack()
+                    frame_image.pack(side='right')
+                    def exit_():
+                         global label
+                         name_title.destroy()
+                         details.destroy()
+                         frame_image.destroy()
+                         exit_frame.destroy()
+                         label=tk.Label(t,text='WELCOME TO HYUNDAI',bg='black',fg='white',font='GOUDY  50 underline')
+                         label.place(x='450',y='275')
+                    exit_frame=tk.Frame(t)
+                    tk.Button(exit_frame,text='Back',command=exit_,bg='yellow',fg='black',font='GOUDY 8 bold').pack()
+                    exit_frame.place(x=100,y=100)
+               def grand_i10_nios(name='Grand i10 NIOS'):
+                    label.destroy()
+                    def buy():
+                         mg=msg.askyesno('Buy','Do You Want To Buy This Car')
+                         if mg:
+                              message='You Owned '+name+' car'
+                              msg.showinfo('Buy',message)
+                              bu1['state']='disable'
+                    def cart():
+                         msg.showinfo('cart','Successfully added to cart')
+                         bu2['state']='disable'
+                    label.destroy()
+                    cur.execute('select * from hyundai where car_name=%s',(name,))
+                    text=cur.fetchone()
+
+                    name_title=tk.Frame(t,bg='black')
+                    tk.Label(name_title,text=name,font='GOUDY 50 bold',fg='yellow',bg='black').pack()
+                    name_title.pack()
+                    details=tk.Frame(t,bg='black',padx=50,pady=50)
+                    textbox=tk.Text(details,bg='dark blue',fg='white')
+                    specification=['Car','Brand','Price','Bodystyle','Layout','Class','Engine','Transmission','Length','Breadth','Height','Wheelbase','Seating Capacity']
+                    for i in range(0,len(specification)):
+                         textbox.insert('end',specification[i]+' : '+text[i]+'\n')
+                         textbox.pack()
+                    details.pack(side='left')
+                    frame_image=tk.Frame(t,borderwidth=10,padx=100,pady=30,bg='black')
+                    textbox2=tk.Text(frame_image)
+                    image_name=str(name)+'.jpg'
+                    image=Image.open(image_name)
+                    photo=ImageTk.PhotoImage(image)
+                    img=tk.Label(textbox2,image=photo,bg='dark blue',fg='white')
+                    img.image=photo
+                    img.pack()
+                    bu1=tk.Button(frame_image,text='BUY NOW',command=buy,bg='orange',fg='black')
+                    bu1.pack(side='bottom',fill='x')
+                    bu2=tk.Button(frame_image,text='ADD TO CART',command=cart,bg='orange',fg='black')
+                    bu2.pack(side='bottom',fill='x')
+                    textbox2.pack()
+                    frame_image.pack(side='right')
+                    def exit_():
+                         global label
+                         name_title.destroy()
+                         details.destroy()
+                         frame_image.destroy()
+                         exit_frame.destroy()
+                         label=tk.Label(t,text='WELCOME TO HYUNDAI',bg='black',fg='white',font='GOUDY  50 underline')
+                         label.place(x='450',y='275')
+                    exit_frame=tk.Frame(t)
+                    tk.Button(exit_frame,text='Back',command=exit_,bg='yellow',fg='black',font='GOUDY 8 bold').pack()
+                    exit_frame.place(x=100,y=100)
+               def elite_i20(name='Elite i20'):
+                    label.destroy()
+                    def buy():
+                         mg=msg.askyesno('Buy','Do You Want To Buy This Car')
+                         if mg:
+                              message='You Owned '+name+' car'
+                              msg.showinfo('Buy',message)
+                              bu1['state']='disable'
+                    def cart():
+                         msg.showinfo('cart','Successfully added to cart')
+                         bu2['state']='disable'
+                    label.destroy()
+                    cur.execute('select * from hyundai where car_name=%s',(name,))
+                    text=cur.fetchone()
+                    name_title=tk.Frame(t,bg='black')
+                    tk.Label(name_title,text=name,font='GOUDY 50 bold',fg='yellow',bg='black').pack()
+                    name_title.pack()
+                    details=tk.Frame(t,bg='black',padx=50,pady=50)
+                    textbox=tk.Text(details,bg='dark blue',fg='white')
+                    specification=['Car','Brand','Price','Bodystyle','Layout','Class','Engine','Transmission','Length','Breadth','Height','Wheelbase','Seating Capacity']
+                    for i in range(0,len(specification)):
+                         textbox.insert('end',specification[i]+' : '+text[i]+'\n')
+                         textbox.pack()
+                    details.pack(side='left')
+                    frame_image=tk.Frame(t,borderwidth=10,padx=100,pady=30,bg='black')
+                    textbox2=tk.Text(frame_image)
+                    image_name=str(name)+'.jpg'
+                    image=Image.open(image_name)
+                    photo=ImageTk.PhotoImage(image)
+                    img=tk.Label(textbox2,image=photo,bg='dark blue',fg='white')
+                    img.image=photo
+                    img.pack()
+                    bu1=tk.Button(frame_image,text='BUY NOW',command=buy,bg='orange',fg='black')
+                    bu1.pack(side='bottom',fill='x')
+                    bu2=tk.Button(frame_image,text='ADD TO CART',command=cart,bg='orange',fg='black')
+                    bu2.pack(side='bottom',fill='x')
+                    textbox2.pack()
+                    frame_image.pack(side='right')
+                    def exit_():
+                         global label
+                         name_title.destroy()
+                         details.destroy()
+                         frame_image.destroy()
+                         exit_frame.destroy()
+                         label=tk.Label(t,text='WELCOME TO HYUNDAI',bg='black',fg='white',font='GOUDY  50 underline')
+                         label.place(x='450',y='275')
+                    exit_frame=tk.Frame(t)
+                    tk.Button(exit_frame,text='Back',command=exit_,bg='yellow',fg='black',font='GOUDY 8 bold').pack()
+                    exit_frame.place(x=100,y=100)
+               def aura(name='Aura'):
+                    label.destroy()
+                    def buy():
+                         mg=msg.askyesno('Buy','Do You Want To Buy This Car')
+                         if mg:
+                              message='You Owned '+name+' car'
+                              msg.showinfo('Buy',message)
+                              bu1['state']='disable'
+                    def cart():
+                         msg.showinfo('cart','Successfully added to cart')
+                         bu2['state']='disable'
+                    label.destroy()
+                    cur.execute('select * from hyundai where car_name=%s',(name,))
+                    text=cur.fetchone()
+                    name_title=tk.Frame(t,bg='black')
+                    tk.Label(name_title,text=name,font='GOUDY 50 bold',fg='yellow',bg='black').pack()
+                    name_title.pack()
+                    details=tk.Frame(t,bg='black',padx=50,pady=50)
+                    textbox=tk.Text(details,bg='dark blue',fg='white')
+                    specification=['Car','Brand','Price','Bodystyle','Layout','Class','Engine','Transmission','Length','Breadth','Height','Wheelbase','Seating Capacity']
+                    for i in range(0,len(specification)):
+                         textbox.insert('end',specification[i]+' : '+text[i]+'\n')
+                         textbox.pack()
+                    details.pack(side='left')
+                    frame_image=tk.Frame(t,borderwidth=10,padx=100,pady=30,bg='black')
+                    textbox2=tk.Text(frame_image)
+                    image_name=str(name)+'.jpg'
+                    image=Image.open(image_name)
+                    photo=ImageTk.PhotoImage(image)
+                    img=tk.Label(textbox2,image=photo,bg='dark blue',fg='white')
+                    img.image=photo
+                    img.pack()
+                    bu1=tk.Button(frame_image,text='BUY NOW',command=buy,bg='orange',fg='black')
+                    bu1.pack(side='bottom',fill='x')
+                    bu2=tk.Button(frame_image,text='ADD TO CART',command=cart,bg='orange',fg='black')
+                    bu2.pack(side='bottom',fill='x')
+                    textbox2.pack()
+                    frame_image.pack(side='right')
+                    def exit_():
+                         global label
+                         name_title.destroy()
+                         details.destroy()
+                         frame_image.destroy()
+                         exit_frame.destroy()
+                         label=tk.Label(t,text='WELCOME TO HYUNDAI',bg='black',fg='white',font='GOUDY  50 underline')
+                         label.place(x='450',y='275')
+                    exit_frame=tk.Frame(t)
+                    tk.Button(exit_frame,text='Back',command=exit_,bg='yellow',fg='black',font='GOUDY 8 bold').pack()
+                    exit_frame.place(x=100,y=100)
+               def xcent(name='Xcent'):
+                    label.destroy()
+                    def buy():
+                         mg=msg.askyesno('Buy','Do You Want To Buy This Car')
+                         if mg:
+                              message='You Owned '+name+' car'
+                              msg.showinfo('Buy',message)
+                              bu1['state']='disable'
+                    def cart():
+                         msg.showinfo('cart','Successfully added to cart')
+                         bu2['state']='disable'
+                    label.destroy()
+                    cur.execute('select * from hyundai where car_name=%s',(name,))
+                    text=cur.fetchone()
+                    name_title=tk.Frame(t,bg='black')
+                    tk.Label(name_title,text=name,font='GOUDY 50 bold',fg='yellow',bg='black').pack()
+                    name_title.pack()
+                    details=tk.Frame(t,bg='black',padx=50,pady=50)
+                    textbox=tk.Text(details,bg='dark blue',fg='white')
+                    specification=['Car','Brand','Price','Bodystyle','Layout','Class','Engine','Transmission','Length','Breadth','Height','Wheelbase','Seating Capacity']
+                    for i in range(0,len(specification)):
+                         textbox.insert('end',specification[i]+' : '+text[i]+'\n')
+                         textbox.pack()
+                    details.pack(side='left')
+                    frame_image=tk.Frame(t,borderwidth=10,padx=100,pady=30,bg='black')
+                    textbox2=tk.Text(frame_image)
+                    image_name=str(name)+'.jpg'
+                    image=Image.open(image_name)
+                    photo=ImageTk.PhotoImage(image)
+                    img=tk.Label(textbox2,image=photo,bg='dark blue',fg='white')
+                    img.image=photo
+                    img.pack()
+                    bu1=tk.Button(frame_image,text='BUY NOW',command=buy,bg='orange',fg='black')
+                    bu1.pack(side='bottom',fill='x')
+                    bu2=tk.Button(frame_image,text='ADD TO CART',command=cart,bg='orange',fg='black')
+                    bu2.pack(side='bottom',fill='x')
+                    textbox2.pack()
+                    frame_image.pack(side='right')
+                    def exit_():
+                         global label
+                         name_title.destroy()
+                         details.destroy()
+                         frame_image.destroy()
+                         exit_frame.destroy()
+                         label=tk.Label(t,text='WELCOME TO HYUNDAI',bg='black',fg='white',font='GOUDY  50 underline')
+                         label.place(x='450',y='275')
+                    exit_frame=tk.Frame(t)
+                    tk.Button(exit_frame,text='Back',command=exit_,bg='yellow',fg='black',font='GOUDY 8 bold').pack()
+                    exit_frame.place(x=100,y=100)
+               def verna(name='Verna'):
+                    label.destroy()
+                    def buy():
+                         mg=msg.askyesno('Buy','Do You Want To Buy This Car')
+                         if mg:
+                              message='You Owned '+name+' car'
+                              msg.showinfo('Buy',message)
+                              bu1['state']='disable'
+                    def cart():
+                         msg.showinfo('cart','Successfully added to cart')
+                         bu2['state']='disable'
+                    label.destroy()
+                    cur.execute('select * from hyundai where car_name=%s',(name,))
+                    text=cur.fetchone()
+                    name_title=tk.Frame(t,bg='black')
+                    tk.Label(name_title,text=name,font='GOUDY 50 bold',fg='yellow',bg='black').pack()
+                    name_title.pack()
+                    details=tk.Frame(t,bg='black',padx=50,pady=50)
+                    textbox=tk.Text(details,bg='dark blue',fg='white')
+                    specification=['Car','Brand','Price','Bodystyle','Layout','Class','Engine','Transmission','Length','Breadth','Height','Wheelbase','Seating Capacity']
+                    for i in range(0,len(specification)):
+                         textbox.insert('end',specification[i]+' : '+text[i]+'\n')
+                         textbox.pack()
+                    details.pack(side='left')
+                    frame_image=tk.Frame(t,borderwidth=10,padx=100,pady=30,bg='black')
+                    textbox2=tk.Text(frame_image)
+                    image_name=str(name)+'.jpg'
+                    image=Image.open(image_name)
+                    photo=ImageTk.PhotoImage(image)
+                    img=tk.Label(textbox2,image=photo,bg='dark blue',fg='white')
+                    img.image=photo
+                    img.pack()
+                    bu1=tk.Button(frame_image,text='BUY NOW',command=buy,bg='orange',fg='black')
+                    bu1.pack(side='bottom',fill='x')
+                    bu2=tk.Button(frame_image,text='ADD TO CART',command=cart,bg='orange',fg='black')
+                    bu2.pack(side='bottom',fill='x')
+                    textbox2.pack()
+                    frame_image.pack(side='right')
+                    def exit_():
+                         global label
+                         name_title.destroy()
+                         details.destroy()
+                         frame_image.destroy()
+                         exit_frame.destroy()
+                         label=tk.Label(t,text='WELCOME TO HYUNDAI',bg='black',fg='white',font='GOUDY  50 underline')
+                         label.place(x='450',y='275')
+                    exit_frame=tk.Frame(t)
+                    tk.Button(exit_frame,text='Back',command=exit_,bg='yellow',fg='black',font='GOUDY 8 bold').pack()
+                    exit_frame.place(x=100,y=100)
+               def elentra(name='Elentra'):
+                    label.destroy()
+                    def buy():
+                         mg=msg.askyesno('Buy','Do You Want To Buy This Car')
+                         if mg:
+                              message='You Owned '+name+' car'
+                              msg.showinfo('Buy',message)
+                              bu1['state']='disable'
+                    def cart():
+                         msg.showinfo('cart','Successfully added to cart')
+                         bu2['state']='disable'
+                    label.destroy()
+                    cur.execute('select * from hyundai where car_name=%s',(name,))
+                    text=cur.fetchone()
+                    name_title=tk.Frame(t,bg='black')
+                    tk.Label(name_title,text=name,font='GOUDY 50 bold',fg='yellow',bg='black').pack()
+                    name_title.pack()
+                    details=tk.Frame(t,bg='black',padx=50,pady=50)
+                    textbox=tk.Text(details,bg='dark blue',fg='white')
+                    specification=['Car','Brand','Price','Bodystyle','Layout','Class','Engine','Transmission','Length','Breadth','Height','Wheelbase','Seating Capacity']
+                    for i in range(0,len(specification)):
+                         textbox.insert('end',specification[i]+' : '+text[i]+'\n')
+                         textbox.pack()
+                    details.pack(side='left')
+                    frame_image=tk.Frame(t,borderwidth=10,padx=100,pady=30,bg='black')
+                    textbox2=tk.Text(frame_image)
+                    image_name=str(name)+'.jpg'
+                    image=Image.open(image_name)
+                    photo=ImageTk.PhotoImage(image)
+                    img=tk.Label(textbox2,image=photo,bg='dark blue',fg='white')
+                    img.image=photo
+                    img.pack()
+                    bu1=tk.Button(frame_image,text='BUY NOW',command=buy,bg='orange',fg='black')
+                    bu1.pack(side='bottom',fill='x')
+                    bu2=tk.Button(frame_image,text='ADD TO CART',command=cart,bg='orange',fg='black')
+                    bu2.pack(side='bottom',fill='x')
+                    textbox2.pack()
+                    frame_image.pack(side='right')
+                    def exit_():
+                         global label
+                         name_title.destroy()
+                         details.destroy()
+                         frame_image.destroy()
+                         exit_frame.destroy()
+                         label=tk.Label(t,text='WELCOME TO HYUNDAI',bg='black',fg='white',font='GOUDY  50 underline')
+                         label.place(x='450',y='275')
+                    exit_frame=tk.Frame(t)
+                    tk.Button(exit_frame,text='Back',command=exit_,bg='yellow',fg='black',font='GOUDY 8 bold').pack()
+                    exit_frame.place(x=100,y=100)
+               def venue(name='Venue'):
+                    label.destroy()
+                    def buy():
+                         mg=msg.askyesno('Buy','Do You Want To Buy This Car')
+                         if mg:
+                              message='You Owned '+name+' car'
+                              msg.showinfo('Buy',message)
+                              bu1['state']='disable'
+                    def cart():
+                         msg.showinfo('cart','Successfully added to cart')
+                         bu2['state']='disable'
+                    label.destroy()
+                    cur.execute('select * from hyundai where car_name=%s',(name,))
+                    text=cur.fetchone()
+                    name_title=tk.Frame(t,bg='black')
+                    tk.Label(name_title,text=name,font='GOUDY 50 bold',fg='yellow',bg='black').pack()
+                    name_title.pack()
+                    details=tk.Frame(t,bg='black',padx=50,pady=50)
+                    textbox=tk.Text(details,bg='dark blue',fg='white')
+                    specification=['Car','Brand','Price','Bodystyle','Layout','Class','Engine','Transmission','Length','Breadth','Height','Wheelbase','Seating Capacity']
+                    for i in range(0,len(specification)):
+                         textbox.insert('end',specification[i]+' : '+text[i]+'\n')
+                         textbox.pack()
+                    details.pack(side='left')
+                    frame_image=tk.Frame(t,borderwidth=10,padx=100,pady=30,bg='black')
+                    textbox2=tk.Text(frame_image)
+                    image_name=str(name)+'.jpg'
+                    image=Image.open(image_name)
+                    photo=ImageTk.PhotoImage(image)
+                    img=tk.Label(textbox2,image=photo,bg='dark blue',fg='white')
+                    img.image=photo
+                    img.pack()
+                    bu1=tk.Button(frame_image,text='BUY NOW',command=buy,bg='orange',fg='black')
+                    bu1.pack(side='bottom',fill='x')
+                    bu2=tk.Button(frame_image,text='ADD TO CART',command=cart,bg='orange',fg='black')
+                    bu2.pack(side='bottom',fill='x')
+                    textbox2.pack()
+                    frame_image.pack(side='right')
+                    def exit_():
+                         global label
+                         name_title.destroy()
+                         details.destroy()
+                         frame_image.destroy()
+                         exit_frame.destroy()
+                         label=tk.Label(t,text='WELCOME TO HYUNDAI',bg='black',fg='white',font='GOUDY  50 underline')
+                         label.place(x='450',y='275')
+                    exit_frame=tk.Frame(t)
+                    tk.Button(exit_frame,text='Back',command=exit_,bg='yellow',fg='black',font='GOUDY 8 bold').pack()
+                    exit_frame.place(x=100,y=100)
+               def creta(name='Creta'):
+                    label.destroy()
+                    def buy():
+                         mg=msg.askyesno('Buy','Do You Want To Buy This Car')
+                         if mg:
+                              message='You Owned '+name+' car'
+                              msg.showinfo('Buy',message)
+                              bu1['state']='disable'
+                    def cart():
+                         msg.showinfo('cart','Successfully added to cart')
+                         bu2['state']='disable'
+                    label.destroy()
+                    cur.execute('select * from hyundai where car_name=%s',(name,))
+                    text=cur.fetchone()
+                    name_title=tk.Frame(t,bg='black')
+                    tk.Label(name_title,text=name,font='GOUDY 50 bold',fg='yellow',bg='black').pack()
+                    name_title.pack()
+                    details=tk.Frame(t,bg='black',padx=50,pady=50)
+                    textbox=tk.Text(details,bg='dark blue',fg='white')
+                    specification=['Car','Brand','Price','Bodystyle','Layout','Class','Engine','Transmission','Length','Breadth','Height','Wheelbase','Seating Capacity']
+                    for i in range(0,len(specification)):
+                         textbox.insert('end',specification[i]+' : '+text[i]+'\n')
+                         textbox.pack()
+                    details.pack(side='left')
+                    frame_image=tk.Frame(t,borderwidth=10,padx=100,pady=30,bg='black')
+                    textbox2=tk.Text(frame_image)
+                    image_name=str(name)+'.jpg'
+                    image=Image.open(image_name)
+                    photo=ImageTk.PhotoImage(image)
+                    img=tk.Label(textbox2,image=photo,bg='dark blue',fg='white')
+                    img.image=photo
+                    img.pack()
+                    bu1=tk.Button(frame_image,text='BUY NOW',command=buy,bg='orange',fg='black')
+                    bu1.pack(side='bottom',fill='x')
+                    bu2=tk.Button(frame_image,text='ADD TO CART',command=cart,bg='orange',fg='black')
+                    bu2.pack(side='bottom',fill='x')
+                    textbox2.pack()
+                    frame_image.pack(side='right')
+                    def exit_():
+                         global label
+                         name_title.destroy()
+                         details.destroy()
+                         frame_image.destroy()
+                         exit_frame.destroy()
+                         label=tk.Label(t,text='WELCOME TO HYUNDAI',bg='black',fg='white',font='GOUDY  50 underline')
+                         label.place(x='450',y='275')
+                    exit_frame=tk.Frame(t)
+                    tk.Button(exit_frame,text='Back',command=exit_,bg='yellow',fg='black',font='GOUDY 8 bold').pack()
+                    exit_frame.place(x=100,y=100)
+               def tucson(name='Tucson'):
+                    label.destroy()
+                    def buy():
+                         mg=msg.askyesno('Buy','Do You Want To Buy This Car')
+                         if mg:
+                              message='You Owned '+name+' car'
+                              msg.showinfo('Buy',message)
+                              bu1['state']='disable'
+                    def cart():
+                         msg.showinfo('cart','Successfully added to cart')
+                         bu2['state']='disable'
+                    label.destroy()
+                    cur.execute('select * from hyundai where car_name=%s',(name,))
+                    text=cur.fetchone()
+                    name_title=tk.Frame(t,bg='black')
+                    tk.Label(name_title,text=name,font='GOUDY 50 bold',fg='yellow',bg='black').pack()
+                    name_title.pack()
+                    details=tk.Frame(t,bg='black',padx=50,pady=50)
+                    textbox=tk.Text(details,bg='dark blue',fg='white')
+                    specification=['Car','Brand','Price','Bodystyle','Layout','Class','Engine','Transmission','Length','Breadth','Height','Wheelbase','Seating Capacity']
+                    for i in range(0,len(specification)):
+                         textbox.insert('end',specification[i]+' : '+text[i]+'\n')
+                         textbox.pack()
+                    details.pack(side='left')
+                    frame_image=tk.Frame(t,borderwidth=10,padx=100,pady=30,bg='black')
+                    textbox2=tk.Text(frame_image)
+                    image_name=str(name)+'.jpg'
+                    image=Image.open(image_name)
+                    photo=ImageTk.PhotoImage(image)
+                    img=tk.Label(textbox2,image=photo,bg='dark blue',fg='white')
+                    img.image=photo
+                    img.pack()
+                    bu1=tk.Button(frame_image,text='BUY NOW',command=buy,bg='orange',fg='black')
+                    bu1.pack(side='bottom',fill='x')
+                    bu2=tk.Button(frame_image,text='ADD TO CART',command=cart,bg='orange',fg='black')
+                    bu2.pack(side='bottom',fill='x')
+                    textbox2.pack()
+                    frame_image.pack(side='right')
+                    def exit_():
+                         global label
+                         name_title.destroy()
+                         details.destroy()
+                         frame_image.destroy()
+                         exit_frame.destroy()
+                         label=tk.Label(t,text='WELCOME TO HYUNDAI',bg='black',fg='white',font='GOUDY  50 underline')
+                         label.place(x='450',y='275')
+                    exit_frame=tk.Frame(t)
+                    tk.Button(exit_frame,text='Back',command=exit_,bg='yellow',fg='black',font='GOUDY 8 bold').pack()
+                    exit_frame.place(x=100,y=100)
+               def kona_elec(name='Kona Electric'):
+                    label.destroy()
+                    def buy():
+                         mg=msg.askyesno('Buy','Do You Want To Buy This Car')
+                         if mg:
+                              message='You Owned '+name+' car'
+                              msg.showinfo('Buy',message)
+                              bu1['state']='disable'
+                    def cart():
+                         msg.showinfo('cart','Successfully added to cart')
+                         bu2['state']='disable'
+                    label.destroy()
+                    cur.execute('select * from hyundai where car_name=%s',(name,))
+                    text=cur.fetchone()
+                    name_title=tk.Frame(t,bg='black')
+                    tk.Label(name_title,text=name,font='GOUDY 50 bold',fg='yellow',bg='black').pack()
+                    name_title.pack()
+                    details=tk.Frame(t,bg='black',padx=50,pady=50)
+                    textbox=tk.Text(details,bg='dark blue',fg='white')
+                    specification=['Car','Brand','Price','Bodystyle','Layout','Class','Engine','Transmission','Length','Breadth','Height','Wheelbase','Seating Capacity']
+                    for i in range(0,len(specification)):
+                         textbox.insert('end',specification[i]+' : '+text[i]+'\n')
+                         textbox.pack()
+                    details.pack(side='left')
+                    frame_image=tk.Frame(t,borderwidth=10,padx=100,pady=30,bg='black')
+                    textbox2=tk.Text(frame_image)
+                    image_name=str(name)+'.jpg'
+                    image=Image.open(image_name)
+                    photo=ImageTk.PhotoImage(image)
+                    img=tk.Label(textbox2,image=photo,bg='dark blue',fg='white')
+                    img.image=photo
+                    img.pack()
+                    bu1=tk.Button(frame_image,text='BUY NOW',command=buy,bg='orange',fg='black')
+                    bu1.pack(side='bottom',fill='x')
+                    bu2=tk.Button(frame_image,text='ADD TO CART',command=cart,bg='orange',fg='black')
+                    bu2.pack(side='bottom',fill='x')
+                    textbox2.pack()
+                    frame_image.pack(side='right')
+                    def exit_():
+                         global label
+                         name_title.destroy()
+                         details.destroy()
+                         frame_image.destroy()
+                         exit_frame.destroy()
+                         label=tk.Label(t,text='WELCOME TO HYUNDAI',bg='black',fg='white',font='GOUDY  50 underline')
+                         label.place(x='450',y='275')
+                    exit_frame=tk.Frame(t)
+                    tk.Button(exit_frame,text='Back',command=exit_,bg='yellow',fg='black',font='GOUDY 8 bold').pack()
+                    exit_frame.place(x=100,y=100)
+               def repair():                                #repair function 
+                    global t
+                    global label
+                    label.destroy()
+                    def back01():
+                         global label
+                         name_entry.destroy()
+                         city_entry.destroy()
+                         car_name.destroy()
+                         city.destroy()
+                         search.destroy()
+                         back1.destroy()
+                         label=tk.Label(t,text='WELCOME TO HYUNDAI',bg='black',fg='white',font='GOUDY  50 underline')
+                         label.place(x='450',y='275')
+                    def Search():
+                         if len(name_entry.get()) != 0 and len(city_entry.get())!= 0:
+                              loc=location.get()
+                              cur.execute('select NAME from repair where LOCATION=(%s)',(loc,))
+                              data=cur.fetchone()
+                              text.insert('end','Our Service Centers At ' +loc+'---\n')
+                              text.insert('end',data[0]+'\n')
+                              text.pack(side='bottom')
+                              ob.commit()
+                              search['state']='disable'
+                              def book_car():
+                                   yesno=msg.askyesno('CAR SERVICE','Do You Really Want To Book A Service')
+                                   name_entry.destroy()
+                                   city_entry.destroy()
+                                   car_name.destroy()
+                                   city.destroy()
+                                   text.destroy()
+                                   book.destroy()
+                                   search.destroy()
+                                   back1.destroy()
+                                   def done_():
+                                        if len(e2.get())!=0:
+                                             try:
+                                                  cur.execute('select * from repair_booking')
+                                                  booking_data=cur.fetchall()
+                                                  ob.commit()
+                                                  cur.execute('insert into repair_booking values(%s)',(e2.get(),))
+                                                  ob.commit()
+                                                  msg.showinfo('CAR SERVICE','Your Booking Done')
+                                                  e1.destroy()
+                                                  e2.destroy()
+                                                  Done.destroy()
+                                                  date.destroy()
+                                                  time.destroy()
+                                                  global label
+                                                  label=tk.Label(t,text='WELCOME TO HYUNDAI',bg='black',fg='white',font='GOUDY  50 underline')
+                                                  label.place(x='450',y='275')
+                                             except:
+                                                  msg.showerror('Error','Service is not available for your entered date and time')
+                                        else:
+                                             msg.showerror('Error','Please add Date and Time')
+                                   date=tk.Label(t,text='Enter Date and Time in the Format Given Below',bg='black',fg='white',font='GOUDY 25')
+                                   date.place(x=400,y=100)
+                                   time=tk.Label(t,text='YYYYMMDDHHMMSS',bg='black',fg='white',font='GOUDY 20')
+                                   time.place(x=400,y=200)
+                                   Done=tk.Button(t,text='Done',command=done_,bg='yellow',fg='black',font='GOUDY 15')
+                                   Done.place(x=400,y=250)
+                                   time_=tk.StringVar()
+                                   e2=tk.Entry(t,font='GOUDY 20',textvariable=time_)
+                                   e2.place(x=690,y=205)
+                         else:
+                              msg.showerror('Error','Please add Car_Name and your City') 
+                         book=tk.Button(t,text='Book a Service',font='GOUDY 10 bold',bg='yellow',fg='black',command=book_car)
+                         book.place(x=1040,y=720)
+                    car=tk.StringVar()
+                    location=tk.StringVar()
+                    car_name=tk.Label(t,text='Enter your Car Name',bg='black',fg='white',font='GOUDY 20')
+                    car_name.place(x=400,y=100)
+                    city=tk.Label(t,text='Enter your City',bg='black',fg='white',font='GOUDY 20')
+                    city.place(x=400,y=160)
+                    name_entry=tk.Entry(t,font='GOUDY 20',textvariable=car)
+                    name_entry.place(x=680,y=100)
+                    city_entry=tk.Entry(t,font='GOUDY 20',textvariable=location)
+                    city_entry.place(x=680,y=160)
+                    search=tk.Button(t,text='Seacrh',command=Search,bg='black',fg='white',font='GOUDY 12 bold')
+                    search.place(x=680,y=220)
+                    text=tk.Text(t,bg='dark blue',fg='white',font='GOUDY 15 bold',pady=5,height=5,width=52)
+                    back1=tk.Button(t,text='Back',command=back01,bg='black',fg='white',font='GOUDY 12 bold')
+                    back1.place(x=600,y=220)
+               def web_search():                  #function for searching on webbrowser(opens directly browser)
+                    webbrowser.open('https://www.google.com')
+               menu1=tk.Menu(t)                                  #creating menus for tk window
+               my_menu1=tk.Menu(menu1,tearoff=0)  
+               my_menu_1=tk.Menu(my_menu1,tearoff=0)
+               my_menu_1.add_command(label='Santro',command=santro)
+               my_menu_1.add_command(label='Grand i10',command=grand_i10)
+               my_menu_1.add_command(label='Grand i10 NIOS',command=grand_i10_nios)
+               my_menu_1.add_command(label='Elite i20',command=elite_i20)
+               my_menu_1.add_command(label='Aura',command=aura)
+               my_menu_1.add_command(label='Xcent',command=xcent)
+               my_menu_1.add_command(label='Verna',command=verna)
+               my_menu_1.add_command(label='Elentra',command=elentra)
+               my_menu_1.add_command(label='Venue',command=venue)
+               my_menu_1.add_command(label='Creta',command=creta)
+               my_menu_1.add_command(label='Tucson',command=tucson)
+               my_menu_1.add_command(label='Kona Electric',command=kona_elec)
+               my_menu1.add_cascade(label='HYUNDAI',menu=my_menu_1)
+               menu1.add_cascade(label='New Car',menu=my_menu1)
+               menu1.add_command(label='Repair',command=repair)
+               menu1.add_command(label='Web Search',command=web_search)
+               menu1.add_command(label='Exit',command=t.destroy)
+               t.config(menu=menu1)     
+          except:
+               msg.showerror(title='ERROR',message='An Error Occured . Please check your details')
+     else:
+          msg.showerror('ERROR','Please check again your email-id and phone no.')
+
+
+
+
+
+def log():                                   #Login function
+     title_sign.destroy()
+     inputs_sign.destroy()
+     e1.destroy()
+     e2.destroy()
+     e3.destroy()
+     e4.destroy()
+     sign.destroy()
+     log_ask.destroy()
+     l.destroy()
+     log_sign.destroy()
+     def log_in():
+          cur.execute('select e_mail_id,password from user_info' )
+          d=cur.fetchall()
+          e_mail=[]
+          password=[]
+          for i in d:
+               e_mail.append(i[0])
+               password.append(i[1])
+          if ((user_input1.get() in e_mail and user_input2.get() in password)):
+               i1=e_mail.index(user_input1.get())
+               i2=password.index(user_input2.get())
+               if i1==i2: 
+                    msg.showinfo(title='Status',message='Log In Successfull')
+                    title.destroy()
+                    user_input1.destroy()
+                    user_input2.destroy()
+                    inputs.destroy()
+                    passwd.destroy()
+                    log.destroy()
+                    global label
+                    label=tk.Label(t,text='WELCOME TO HYUNDAI',bg='black',fg='white',font='GOUDY  50 underline')
+                    label.place(x='450',y='275')
+
+                    def santro(name='Santro'):                        #function for getting details of cars and thier images
+                         def buy():
+                              mg=msg.askyesno('Buy','Do You Want To Buy This Car')
+                              if mg:
+                                   message='You Owned '+name+' car'
+                                   msg.showinfo('Buy',message)
+                                   bu1['state']='disable'
+                         def cart():
+                              msg.showinfo('cart','Successfully added to cart')
+                              bu2['state']='disable'
+                         label.destroy()
+                         cur.execute('select * from hyundai where car_name=%s',(name,))
+                         text=cur.fetchone()
+                         name_title=tk.Frame(t,bg='black')
+                         tk.Label(name_title,text=name,font='GOUDY 50 bold',fg='yellow',bg='black').pack()
+                         name_title.pack()
+                         details=tk.Frame(t,bg='black',padx=50,pady=50)
+                         textbox=tk.Text(details,bg='dark blue',fg='white')
+                         specification=['Car','Brand','Price','Bodystyle','Layout','Class','Engine','Transmission','Length','Breadth','Height','Wheelbase','Seating Capacity']
+                         for i in range(0,len(specification)):
+                              textbox.insert('end',specification[i]+' : '+text[i]+'\n')
+                              textbox.pack()
+                         details.pack(side='left')
+                         frame_image=tk.Frame(t,borderwidth=10,padx=100,pady=30,bg='black')
+                         textbox2=tk.Text(frame_image)
+                         image_name=str(name)+'.jpg'
+                         image=Image.open(image_name)
+                         photo=ImageTk.PhotoImage(image)
+                         img=tk.Label(textbox2,image=photo,bg='dark blue',fg='white')
+                         img.image=photo
+                         img.pack()
+                         bu1=tk.Button(frame_image,text='BUY NOW',command=buy,bg='orange',fg='black')
+                         bu1.pack(side='bottom',fill='x')
+                         bu2=tk.Button(frame_image,text='ADD TO CART',command=cart,bg='orange',fg='black')
+                         bu2.pack(side='bottom',fill='x')
+                         textbox2.pack()
+                         frame_image.pack(side='right')
+                         def exit_():
+                              global label
+                              name_title.destroy()
+                              details.destroy()
+                              frame_image.destroy()
+                              exit_frame.destroy()
+                              label=tk.Label(t,text='WELCOME TO HYUNDAI',bg='black',fg='white',font='GOUDY  50 underline')
+                              label.place(x='450',y='275')
+                         exit_frame=tk.Frame(t)
+                         tk.Button(exit_frame,text='Back',command=exit_,bg='yellow',fg='black',font='GOUDY 8 bold').pack()
+                         exit_frame.place(x=100,y=100)
+                    def grand_i10(name='Grand i10'):
+                         def buy():
+                              mg=msg.askyesno('Buy','Do You Want To Buy This Car')
+                              if mg:
+                                   message='You Owned '+name+' car'
+                                   msg.showinfo('Buy',message)
+                                   bu1['state']='disable'
+                         def cart():
+                              msg.showinfo('cart','Successfully added to cart')
+                              bu2['state']='disable'
+                         label.destroy()
+                         cur.execute('select * from hyundai where car_name=%s',(name,))
+                         text=cur.fetchone()
+                         name_title=tk.Frame(t,bg='black')
+                         tk.Label(name_title,text=name,font='GOUDY 50 bold',fg='yellow',bg='black').pack()
+                         name_title.pack()
+                         details=tk.Frame(t,bg='black',padx=50,pady=50)
+                         textbox=tk.Text(details,bg='dark blue',fg='white')
+                         specification=['Car','Brand','Price','Bodystyle','Layout','Class','Engine','Transmission','Length','Breadth','Height','Wheelbase','Seating Capacity']
+                         for i in range(0,len(specification)):
+                              textbox.insert('end',specification[i]+' : '+text[i]+'\n')
+                              textbox.pack()
+                         details.pack(side='left')
+                         frame_image=tk.Frame(t,borderwidth=10,padx=100,pady=30,bg='black')
+                         textbox2=tk.Text(frame_image)
+                         image_name=str(name)+'.jpg'
+                         image=Image.open(image_name)
+                         photo=ImageTk.PhotoImage(image)
+                         img=tk.Label(textbox2,image=photo,bg='dark blue',fg='white')
+                         img.image=photo
+                         img.pack()
+                         bu1=tk.Button(frame_image,text='BUY NOW',command=buy,bg='orange',fg='black')
+                         bu1.pack(side='bottom',fill='x')
+                         bu2=tk.Button(frame_image,text='ADD TO CART',command=cart,bg='orange',fg='black')
+                         bu2.pack(side='bottom',fill='x')
+                         textbox2.pack()
+                         frame_image.pack(side='right')
+                         def exit_():
+                              global label
+                              name_title.destroy()
+                              details.destroy()
+                              frame_image.destroy()
+                              exit_frame.destroy()
+                              label=tk.Label(t,text='WELCOME TO HYUNDAI',bg='black',fg='white',font='GOUDY  50 underline')
+                              label.place(x='450',y='275')
+                         exit_frame=tk.Frame(t)
+                         tk.Button(exit_frame,text='Back',command=exit_,bg='yellow',fg='black',font='GOUDY 8 bold').pack()
+                         exit_frame.place(x=100,y=100)  
+                    def grand_i10_nios(name='Grand i10 NIOS'):
+                         def buy():
+                              mg=msg.askyesno('Buy','Do You Want To Buy This Car')
+                              if mg:
+                                   message='You Owned '+name+' car'
+                                   msg.showinfo('Buy',message)
+                                   bu1['state']='disable'
+                         def cart():
+                              msg.showinfo('cart','Successfully added to cart')
+                              bu2['state']='disable'
+                         label.destroy()
+                         cur.execute('select * from hyundai where car_name=%s',(name,))
+                         text=cur.fetchone()
+                         name_title=tk.Frame(t,bg='black')
+                         tk.Label(name_title,text=name,font='GOUDY 50 bold',fg='yellow',bg='black').pack()
+                         name_title.pack()
+                         details=tk.Frame(t,bg='black',padx=50,pady=50)
+                         textbox=tk.Text(details,bg='dark blue',fg='white')
+                         specification=['Car','Brand','Price','Bodystyle','Layout','Class','Engine','Transmission','Length','Breadth','Height','Wheelbase','Seating Capacity']
+                         for i in range(0,len(specification)):
+                              textbox.insert('end',specification[i]+' : '+text[i]+'\n')
+                              textbox.pack()
+                         details.pack(side='left')
+                         frame_image=tk.Frame(t,borderwidth=10,padx=100,pady=30,bg='black')
+                         textbox2=tk.Text(frame_image)
+                         image_name=str(name)+'.jpg'
+                         image=Image.open(image_name)
+                         photo=ImageTk.PhotoImage(image)
+                         img=tk.Label(textbox2,image=photo,bg='dark blue',fg='white')
+                         img.image=photo
+                         img.pack()
+                         bu1=tk.Button(frame_image,text='BUY NOW',command=buy,bg='orange',fg='black')
+                         bu1.pack(side='bottom',fill='x')
+                         bu2=tk.Button(frame_image,text='ADD TO CART',command=cart,bg='orange',fg='black')
+                         bu2.pack(side='bottom',fill='x')
+                         textbox2.pack()
+                         frame_image.pack(side='right')
+                         def exit_():
+                              global label
+                              name_title.destroy()
+                              details.destroy()
+                              frame_image.destroy()
+                              exit_frame.destroy()
+                              label=tk.Label(t,text='WELCOME TO HYUNDAI',bg='black',fg='white',font='GOUDY  50 underline')
+                              label.place(x='450',y='275')
+                         exit_frame=tk.Frame(t)
+                         tk.Button(exit_frame,text='Back',command=exit_,bg='yellow',fg='black',font='GOUDY 8 bold').pack()
+                         exit_frame.place(x=100,y=100)
+                    def elite_i20(name='Elite i20'):
+                         def buy():
+                              mg=msg.askyesno('Buy','Do You Want To Buy This Car')
+                              if mg:
+                                   message='You Owned '+name+' car'
+                                   msg.showinfo('Buy',message)
+                                   bu1['state']='disable'
+                         def cart():
+                              msg.showinfo('cart','Successfully added to cart')
+                              bu2['state']='disable'
+                         label.destroy()
+                         cur.execute('select * from hyundai where car_name=%s',(name,))
+                         text=cur.fetchone()
+                         name_title=tk.Frame(t,bg='black')
+                         tk.Label(name_title,text=name,font='GOUDY 50 bold',fg='yellow',bg='black').pack()
+                         name_title.pack()
+                         details=tk.Frame(t,bg='black',padx=50,pady=50)
+                         textbox=tk.Text(details,bg='dark blue',fg='white')
+                         specification=['Car','Brand','Price','Bodystyle','Layout','Class','Engine','Transmission','Length','Breadth','Height','Wheelbase','Seating Capacity']
+                         for i in range(0,len(specification)):
+                              textbox.insert('end',specification[i]+' : '+text[i]+'\n')
+                              textbox.pack()
+                         details.pack(side='left')
+                         frame_image=tk.Frame(t,borderwidth=10,padx=100,pady=30,bg='black')
+                         textbox2=tk.Text(frame_image)
+                         image_name=str(name)+'.jpg'
+                         image=Image.open(image_name)
+                         photo=ImageTk.PhotoImage(image)
+                         img=tk.Label(textbox2,image=photo,bg='dark blue',fg='white')
+                         img.image=photo
+                         img.pack()
+                         bu1=tk.Button(frame_image,text='BUY NOW',command=buy,bg='orange',fg='black')
+                         bu1.pack(side='bottom',fill='x')
+                         bu2=tk.Button(frame_image,text='ADD TO CART',command=cart,bg='orange',fg='black')
+                         bu2.pack(side='bottom',fill='x')
+                         textbox2.pack()
+                         frame_image.pack(side='right')
+                         def exit_():
+                              global label
+                              name_title.destroy()
+                              details.destroy()
+                              frame_image.destroy()
+                              exit_frame.destroy()
+                              label=tk.Label(t,text='WELCOME TO HYUNDAI',bg='black',fg='white',font='GOUDY  50 underline')
+                              label.place(x='450',y='275')
+                         exit_frame=tk.Frame(t)
+                         tk.Button(exit_frame,text='Back',command=exit_,bg='yellow',fg='black',font='GOUDY 8 bold').pack()
+                         exit_frame.place(x=100,y=100)
+                    def aura(name='Aura'):
+                         def buy():
+                              mg=msg.askyesno('Buy','Do You Want To Buy This Car')
+                              if mg:
+                                   message='You Owned '+name+' car'
+                                   msg.showinfo('Buy',message)
+                                   bu1['state']='disable'
+                         def cart():
+                              msg.showinfo('cart','Successfully added to cart')
+                              bu2['state']='disable'
+                         label.destroy()
+                         cur.execute('select * from hyundai where car_name=%s',(name,))
+                         text=cur.fetchone()
+                         name_title=tk.Frame(t,bg='black')
+                         tk.Label(name_title,text=name,font='GOUDY 50 bold',fg='yellow',bg='black').pack()
+                         name_title.pack()
+                         details=tk.Frame(t,bg='black',padx=50,pady=50)
+                         textbox=tk.Text(details,bg='dark blue',fg='white')
+                         specification=['Car','Brand','Price','Bodystyle','Layout','Class','Engine','Transmission','Length','Breadth','Height','Wheelbase','Seating Capacity']
+                         for i in range(0,len(specification)):
+                              textbox.insert('end',specification[i]+' : '+text[i]+'\n')
+                              textbox.pack()
+                         details.pack(side='left')
+                         frame_image=tk.Frame(t,borderwidth=10,padx=100,pady=30,bg='black')
+                         textbox2=tk.Text(frame_image)
+                         image_name=str(name)+'.jpg'
+                         image=Image.open(image_name)
+                         photo=ImageTk.PhotoImage(image)
+                         img=tk.Label(textbox2,image=photo,bg='dark blue',fg='white')
+                         img.image=photo
+                         img.pack()
+                         bu1=tk.Button(frame_image,text='BUY NOW',command=buy,bg='orange',fg='black')
+                         bu1.pack(side='bottom',fill='x')
+                         bu2=tk.Button(frame_image,text='ADD TO CART',command=cart,bg='orange',fg='black')
+                         bu2.pack(side='bottom',fill='x')
+                         textbox2.pack()
+                         frame_image.pack(side='right')
+                         def exit_():
+                              global label
+                              name_title.destroy()
+                              details.destroy()
+                              frame_image.destroy()
+                              exit_frame.destroy()
+                              label=tk.Label(t,text='WELCOME TO HYUNDAI',bg='black',fg='white',font='GOUDY  50 underline')
+                              label.place(x='450',y='275')
+                         exit_frame=tk.Frame(t)
+                         tk.Button(exit_frame,text='Back',command=exit_,bg='yellow',fg='black',font='GOUDY 8 bold').pack()
+                         exit_frame.place(x=100,y=100)
+                    def xcent(name='Xcent'):
+                         def buy():
+                              mg=msg.askyesno('Buy','Do You Want To Buy This Car')
+                              if mg:
+                                   message='You Owned '+name+' car'
+                                   msg.showinfo('Buy',message)
+                                   bu1['state']='disable'
+                         def cart():
+                              msg.showinfo('cart','Successfully added to cart')
+                              bu2['state']='disable'
+                         label.destroy()
+                         cur.execute('select * from hyundai where car_name=%s',(name,))
+                         text=cur.fetchone()
+                         name_title=tk.Frame(t,bg='black')
+                         tk.Label(name_title,text=name,font='GOUDY 50 bold',fg='yellow',bg='black').pack()
+                         name_title.pack()
+                         details=tk.Frame(t,bg='black',padx=50,pady=50)
+                         textbox=tk.Text(details,bg='dark blue',fg='white')
+                         specification=['Car','Brand','Price','Bodystyle','Layout','Class','Engine','Transmission','Length','Breadth','Height','Wheelbase','Seating Capacity']
+                         for i in range(0,len(specification)):
+                              textbox.insert('end',specification[i]+' : '+text[i]+'\n')
+                              textbox.pack()
+                         details.pack(side='left')
+                         frame_image=tk.Frame(t,borderwidth=10,padx=100,pady=30,bg='black')
+                         textbox2=tk.Text(frame_image)
+                         image_name=str(name)+'.jpg'
+                         image=Image.open(image_name)
+                         photo=ImageTk.PhotoImage(image)
+                         img=tk.Label(textbox2,image=photo,bg='dark blue',fg='white')
+                         img.image=photo
+                         img.pack()
+                         bu1=tk.Button(frame_image,text='BUY NOW',command=buy,bg='orange',fg='black')
+                         bu1.pack(side='bottom',fill='x')
+                         bu2=tk.Button(frame_image,text='ADD TO CART',command=cart,bg='orange',fg='black')
+                         bu2.pack(side='bottom',fill='x')
+                         textbox2.pack()
+                         frame_image.pack(side='right')
+                         def exit_():
+                              global label
+                              name_title.destroy()
+                              details.destroy()
+                              frame_image.destroy()
+                              exit_frame.destroy()
+                              label=tk.Label(t,text='WELCOME TO HYUNDAI',bg='black',fg='white',font='GOUDY  50 underline')
+                              label.place(x='450',y='275')
+                         exit_frame=tk.Frame(t)
+                         tk.Button(exit_frame,text='Back',command=exit_,bg='yellow',fg='black',font='GOUDY 8 bold').pack()
+                         exit_frame.place(x=100,y=100)
+                    def verna(name='Verna'):
+                         def buy():
+                              mg=msg.askyesno('Buy','Do You Want To Buy This Car')
+                              if mg:
+                                   message='You Owned '+name+' car'
+                                   msg.showinfo('Buy',message)
+                                   bu1['state']='disable'
+                         def cart():
+                              msg.showinfo('cart','Successfully added to cart')
+                              bu2['state']='disable'
+                         label.destroy()
+                         cur.execute('select * from hyundai where car_name=%s',(name,))
+                         text=cur.fetchone()
+                         name_title=tk.Frame(t,bg='black')
+                         tk.Label(name_title,text=name,font='GOUDY 50 bold',fg='yellow',bg='black').pack()
+                         name_title.pack()
+                         details=tk.Frame(t,bg='black',padx=50,pady=50)
+                         textbox=tk.Text(details,bg='dark blue',fg='white')
+                         specification=['Car','Brand','Price','Bodystyle','Layout','Class','Engine','Transmission','Length','Breadth','Height','Wheelbase','Seating Capacity']
+                         for i in range(0,len(specification)):
+                              textbox.insert('end',specification[i]+' : '+text[i]+'\n')
+                              textbox.pack()
+                         details.pack(side='left')
+                         frame_image=tk.Frame(t,borderwidth=10,padx=100,pady=30,bg='black')
+                         textbox2=tk.Text(frame_image)
+                         image_name=str(name)+'.jpg'
+                         image=Image.open(image_name)
+                         photo=ImageTk.PhotoImage(image)
+                         img=tk.Label(textbox2,image=photo,bg='dark blue',fg='white')
+                         img.image=photo
+                         img.pack()
+                         bu1=tk.Button(frame_image,text='BUY NOW',command=buy,bg='orange',fg='black')
+                         bu1.pack(side='bottom',fill='x')
+                         bu2=tk.Button(frame_image,text='ADD TO CART',command=cart,bg='orange',fg='black')
+                         bu2.pack(side='bottom',fill='x')
+                         textbox2.pack()
+                         frame_image.pack(side='right')
+                         def exit_():
+                              global label
+                              name_title.destroy()
+                              details.destroy()
+                              frame_image.destroy()
+                              exit_frame.destroy()
+                              label=tk.Label(t,text='WELCOME TO HYUNDAI',bg='black',fg='white',font='GOUDY  50 underline')
+                              label.place(x='450',y='275')
+                         exit_frame=tk.Frame(t)
+                         tk.Button(exit_frame,text='Back',command=exit_,bg='yellow',fg='black',font='GOUDY 8 bold').pack()
+                         exit_frame.place(x=100,y=100)
+                    def elentra(name='Elentra'):
+                         def buy():
+                              mg=msg.askyesno('Buy','Do You Want To Buy This Car')
+                              if mg:
+                                   message='You Owned '+name+' car'
+                                   msg.showinfo('Buy',message)
+                                   bu1['state']='disable'
+                         def cart():
+                              msg.showinfo('cart','Successfully added to cart')
+                              bu2['state']='disable'
+                         label.destroy()
+                         cur.execute('select * from hyundai where car_name=%s',(name,))
+                         text=cur.fetchone()
+                         name_title=tk.Frame(t,bg='black')
+                         tk.Label(name_title,text=name,font='GOUDY 50 bold',fg='yellow',bg='black').pack()
+                         name_title.pack()
+                         details=tk.Frame(t,bg='black',padx=50,pady=50)
+                         textbox=tk.Text(details,bg='dark blue',fg='white')
+                         specification=['Car','Brand','Price','Bodystyle','Layout','Class','Engine','Transmission','Length','Breadth','Height','Wheelbase','Seating Capacity']
+                         for i in range(0,len(specification)):
+                              textbox.insert('end',specification[i]+' : '+text[i]+'\n')
+                              textbox.pack()
+                         details.pack(side='left')
+                         frame_image=tk.Frame(t,borderwidth=10,padx=100,pady=30,bg='black')
+                         textbox2=tk.Text(frame_image)
+                         image_name=str(name)+'.jpg'
+                         image=Image.open(image_name)
+                         photo=ImageTk.PhotoImage(image)
+                         img=tk.Label(textbox2,image=photo,bg='dark blue',fg='white')
+                         img.image=photo
+                         img.pack()
+                         bu1=tk.Button(frame_image,text='BUY NOW',command=buy,bg='orange',fg='black')
+                         bu1.pack(side='bottom',fill='x')
+                         bu2=tk.Button(frame_image,text='ADD TO CART',command=cart,bg='orange',fg='black')
+                         bu2.pack(side='bottom',fill='x')
+                         textbox2.pack()
+                         frame_image.pack(side='right')
+                         def exit_():
+                              global label
+                              name_title.destroy()
+                              details.destroy()
+                              frame_image.destroy()
+                              exit_frame.destroy()
+                              label=tk.Label(t,text='WELCOME TO HYUNDAI',bg='black',fg='white',font='GOUDY  50 underline')
+                              label.place(x='450',y='275')
+                         exit_frame=tk.Frame(t)
+                         tk.Button(exit_frame,text='Back',command=exit_,bg='yellow',fg='black',font='GOUDY 8 bold').pack()
+                         exit_frame.place(x=100,y=100)
+                    def venue(name='Venue'):
+                         def buy():
+                              mg=msg.askyesno('Buy','Do You Want To Buy This Car')
+                              if mg:
+                                   message='You Owned '+name+' car'
+                                   msg.showinfo('Buy',message)
+                                   bu1['state']='disable'
+                         def cart():
+                              msg.showinfo('cart','Successfully added to cart')
+                              bu2['state']='disable'
+                         label.destroy()
+                         cur.execute('select * from hyundai where car_name=%s',(name,))
+                         text=cur.fetchone()
+                         name_title=tk.Frame(t,bg='black')
+                         tk.Label(name_title,text=name,font='GOUDY 50 bold',fg='yellow',bg='black').pack()
+                         name_title.pack()
+                         details=tk.Frame(t,bg='black',padx=50,pady=50)
+                         textbox=tk.Text(details,bg='dark blue',fg='white')
+                         specification=['Car','Brand','Price','Bodystyle','Layout','Class','Engine','Transmission','Length','Breadth','Height','Wheelbase','Seating Capacity']
+                         for i in range(0,len(specification)):
+                              textbox.insert('end',specification[i]+' : '+text[i]+'\n')
+                              textbox.pack()
+                         details.pack(side='left')
+                         frame_image=tk.Frame(t,borderwidth=10,padx=100,pady=30,bg='black')
+                         textbox2=tk.Text(frame_image)
+                         image_name=str(name)+'.jpg'
+                         image=Image.open(image_name)
+                         photo=ImageTk.PhotoImage(image)
+                         img=tk.Label(textbox2,image=photo,bg='dark blue',fg='white')
+                         img.image=photo
+                         img.pack()
+                         bu1=tk.Button(frame_image,text='BUY NOW',command=buy,bg='orange',fg='black')
+                         bu1.pack(side='bottom',fill='x')
+                         bu2=tk.Button(frame_image,text='ADD TO CART',command=cart,bg='orange',fg='black')
+                         bu2.pack(side='bottom',fill='x')
+                         textbox2.pack()
+                         frame_image.pack(side='right')
+                         def exit_():
+                              global label
+                              name_title.destroy()
+                              details.destroy()
+                              frame_image.destroy()
+                              exit_frame.destroy()
+                              label=tk.Label(t,text='WELCOME TO HYUNDAI',bg='black',fg='white',font='GOUDY  50 underline')
+                              label.place(x='450',y='275')
+                         exit_frame=tk.Frame(t)
+                         tk.Button(exit_frame,text='Back',command=exit_,bg='yellow',fg='black',font='GOUDY 8 bold').pack()
+                         exit_frame.place(x=100,y=100)
+                    def creta(name='Creta'):
+                         def buy():
+                              mg=msg.askyesno('Buy','Do You Want To Buy This Car')
+                              if mg:
+                                   message='You Owned '+name+' car'
+                                   msg.showinfo('Buy',message)
+                                   bu1['state']='disable'
+                         def cart():
+                              msg.showinfo('cart','Successfully added to cart')
+                              bu2['state']='disable'
+                         label.destroy()
+                         cur.execute('select * from hyundai where car_name=%s',(name,))
+                         text=cur.fetchone()
+                         name_title=tk.Frame(t,bg='black')
+                         tk.Label(name_title,text=name,font='GOUDY 50 bold',fg='yellow',bg='black').pack()
+                         name_title.pack()
+                         details=tk.Frame(t,bg='black',padx=50,pady=50)
+                         textbox=tk.Text(details,bg='dark blue',fg='white')
+                         specification=['Car','Brand','Price','Bodystyle','Layout','Class','Engine','Transmission','Length','Breadth','Height','Wheelbase','Seating Capacity']
+                         for i in range(0,len(specification)):
+                              textbox.insert('end',specification[i]+' : '+text[i]+'\n')
+                              textbox.pack()
+                         details.pack(side='left')
+                         frame_image=tk.Frame(t,borderwidth=10,padx=100,pady=30,bg='black')
+                         textbox2=tk.Text(frame_image)
+                         image_name=str(name)+'.jpg'
+                         image=Image.open(image_name)
+                         photo=ImageTk.PhotoImage(image)
+                         img=tk.Label(textbox2,image=photo,bg='dark blue',fg='white')
+                         img.image=photo
+                         img.pack()
+                         bu1=tk.Button(frame_image,text='BUY NOW',command=buy,bg='orange',fg='black')
+                         bu1.pack(side='bottom',fill='x')
+                         bu2=tk.Button(frame_image,text='ADD TO CART',command=cart,bg='orange',fg='black')
+                         bu2.pack(side='bottom',fill='x')
+                         textbox2.pack()
+                         frame_image.pack(side='right')
+                         def exit_():
+                              global label
+                              name_title.destroy()
+                              details.destroy()
+                              frame_image.destroy()
+                              exit_frame.destroy()
+                              label=tk.Label(t,text='WELCOME TO HYUNDAI',bg='black',fg='white',font='GOUDY  50 underline')
+                              label.place(x='450',y='275')
+                         exit_frame=tk.Frame(t)
+                         tk.Button(exit_frame,text='Back',command=exit_,bg='yellow',fg='black',font='GOUDY 8 bold').pack()
+                         exit_frame.place(x=100,y=100)
+                    def tucson(name='Tucson'):
+                         def buy():
+                              mg=msg.askyesno('Buy','Do You Want To Buy This Car')
+                              if mg:
+                                   message='You Owned '+name+' car'
+                                   msg.showinfo('Buy',message)
+                                   bu1['state']='disable'
+                         def cart():
+                              msg.showinfo('cart','Successfully added to cart')
+                              bu2['state']='disable'
+                         label.destroy()
+                         cur.execute('select * from hyundai where car_name=%s',(name,))
+                         text=cur.fetchone()
+                         name_title=tk.Frame(t,bg='black')
+                         tk.Label(name_title,text=name,font='GOUDY 50 bold',fg='yellow',bg='black').pack()
+                         name_title.pack()
+                         details=tk.Frame(t,bg='black',padx=50,pady=50)
+                         textbox=tk.Text(details,bg='dark blue',fg='white')
+                         specification=['Car','Brand','Price','Bodystyle','Layout','Class','Engine','Transmission','Length','Breadth','Height','Wheelbase','Seating Capacity']
+                         for i in range(0,len(specification)):
+                              textbox.insert('end',specification[i]+' : '+text[i]+'\n')
+                              textbox.pack()
+                         details.pack(side='left')
+                         frame_image=tk.Frame(t,borderwidth=10,padx=100,pady=30,bg='black')
+                         textbox2=tk.Text(frame_image)
+                         image_name=str(name)+'.jpg'
+                         image=Image.open(image_name)
+                         photo=ImageTk.PhotoImage(image)
+                         img=tk.Label(textbox2,image=photo,bg='dark blue',fg='white')
+                         img.image=photo
+                         img.pack()
+                         bu1=tk.Button(frame_image,text='BUY NOW',command=buy,bg='orange',fg='black')
+                         bu1.pack(side='bottom',fill='x')
+                         bu2=tk.Button(frame_image,text='ADD TO CART',command=cart,bg='orange',fg='black')
+                         bu2.pack(side='bottom',fill='x')
+                         textbox2.pack()
+                         frame_image.pack(side='right')
+                         def exit_():
+                              global label
+                              name_title.destroy()
+                              details.destroy()
+                              frame_image.destroy()
+                              exit_frame.destroy()
+                              label=tk.Label(t,text='WELCOME TO HYUNDAI',bg='black',fg='white',font='GOUDY  50 underline')
+                              label.place(x='450',y='275')
+                         exit_frame=tk.Frame(t)
+                         tk.Button(exit_frame,text='Back',command=exit_,bg='yellow',fg='black',font='GOUDY 8 bold').pack()
+                         exit_frame.place(x=100,y=100)
+                    def kona_elec(name='Kona Electric'):
+                         def buy():
+                              mg=msg.askyesno('Buy','Do You Want To Buy This Car')
+                              if mg:
+                                   message='You Owned '+name+' car'
+                                   msg.showinfo('Buy',message)
+                                   bu1['state']='disable'
+                         def cart():
+                              msg.showinfo('cart','Successfully added to cart')
+                              bu2['state']='disable'
+                         label.destroy()
+                         cur.execute('select * from hyundai where car_name=%s',(name,))
+                         text=cur.fetchone()
+                         name_title=tk.Frame(t,bg='black')
+                         tk.Label(name_title,text=name,font='GOUDY 50 bold',fg='yellow',bg='black').pack()
+                         name_title.pack()
+                         details=tk.Frame(t,bg='black',padx=50,pady=50)
+                         textbox=tk.Text(details,bg='dark blue',fg='white')
+                         specification=['Car','Brand','Price','Bodystyle','Layout','Class','Engine','Transmission','Length','Breadth','Height','Wheelbase','Seating Capacity']
+                         for i in range(0,len(specification)):
+                              textbox.insert('end',specification[i]+' : '+text[i]+'\n')
+                              textbox.pack()
+                         details.pack(side='left')
+                         frame_image=tk.Frame(t,borderwidth=10,padx=100,pady=30,bg='black')
+                         textbox2=tk.Text(frame_image)
+                         image_name=str(name)+'.jpg'
+                         image=Image.open(image_name)
+                         photo=ImageTk.PhotoImage(image)
+                         img=tk.Label(textbox2,image=photo,bg='dark blue',fg='white')
+                         img.image=photo
+                         img.pack()
+                         bu1=tk.Button(frame_image,text='BUY NOW',command=buy,bg='orange',fg='black')
+                         bu1.pack(side='bottom',fill='x')
+                         bu2=tk.Button(frame_image,text='ADD TO CART',command=cart,bg='orange',fg='black')
+                         bu2.pack(side='bottom',fill='x')
+                         textbox2.pack()
+                         frame_image.pack(side='right')
+                         def exit_():
+                              global label
+                              name_title.destroy()
+                              details.destroy()
+                              frame_image.destroy()
+                              exit_frame.destroy()
+                              label=tk.Label(t,text='WELCOME TO HYUNDAI',bg='black',fg='white',font='GOUDY  50 underline')
+                              label.place(x='450',y='275')
+                         exit_frame=tk.Frame(t)
+                         tk.Button(exit_frame,text='Back',command=exit_,bg='yellow',fg='black',font='GOUDY 8 bold').pack()
+                         exit_frame.place(x=100,y=100)
+                    def repair():                 #repair function
+                         global t
+                         global label
+                         label.destroy()
+                         def back01():
+                              global label
+                              name_entry.destroy()
+                              city_entry.destroy()
+                              car_name.destroy()
+                              city.destroy()
+                              search.destroy()
+                              back1.destroy()
+                              label=tk.Label(t,text='WELCOME TO HYUNDAI',bg='black',fg='white',font='GOUDY  50 underline')
+                              label.place(x='450',y='275')
+                         def Search():
+                              if len(name_entry.get()) != 0 and len(city_entry.get())!= 0:
+                                   loc=location.get()
+                                   cur.execute('select NAME from repair where LOCATION=(%s)',(loc,))
+                                   data=cur.fetchone()
+                                   text.insert('end','Our Service Centers At '+loc+'---\n')
+                                   text.insert('end',data[0]+'\n')
+                                   text.pack(side='bottom')
+                                   ob.commit()
+                                   search['state']='disable'
+                                   def book_car():
+                                        yesno=msg.askyesno('CAR SERVICE','Do You Really Want To Book A Service')
+                                        name_entry.destroy()
+                                        city_entry.destroy()
+                                        car_name.destroy()
+                                        city.destroy()
+                                        text.destroy()
+                                        book.destroy()
+                                        search.destroy()
+                                        back1.destroy() 
+                                        def done_():
+                                             if len(e2.get())!=0:
+                                                  try:
+                                                       cur.execute('select * from repair_booking')
+                                                       booking_data=cur.fetchall()
+                                                       ob.commit()
+                                                       cur.execute('insert into repair_booking values(%s)',(e2.get(),))
+                                                       ob.commit()
+                                                       msg.showinfo('CAR SERVICE','Your Booking Done')
+                                                       e1.destroy()
+                                                       e2.destroy()
+                                                       Done.destroy()
+                                                       date.destroy()
+                                                       time.destroy()
+                                                       global label
+                                                       label=tk.Label(t,text='WELCOME TO HYUNDAI',bg='black',fg='white',font='GOUDY  50 underline')
+                                                       label.place(x='450',y='275')
+                                                  except:
+                                                       msg.showerror('Error','Service is not available for your entered date and time')
+                                             else:
+                                                  msg.showerror('Error','Please add Date and Time')
+                                        date=tk.Label(t,text='Enter Date and Time in the Format Given Below',bg='black',fg='white',font='GOUDY 25')
+                                        date.place(x=400,y=100)
+                                        time=tk.Label(t,text='YYYYMMDDHHMMSS',bg='black',fg='white',font='GOUDY 20')
+                                        time.place(x=400,y=200)
+                                        Done=tk.Button(t,text='Done',command=done_,bg='yellow',fg='black',font='GOUDY 15')
+                                        Done.place(x=400,y=250)
+                                        time_=tk.StringVar()
+                                        e2=tk.Entry(t,font='GOUDY 20',textvariable=time_)
+                                        e2.place(x=690,y=205)
+                              else:
+                                   msg.showerror('Error','Please add Car_Name and your City')
+                              book=tk.Button(t,text='Book a Service',font='GOUDY 10 bold',bg='yellow',fg='black',command=book_car)
+                              book.place(x=1040,y=720)
+                         car=tk.StringVar()
+                         location=tk.StringVar()
+                         car_name=tk.Label(t,text='Enter your Car Name',bg='black',fg='white',font='GOUDY 20')
+                         car_name.place(x=400,y=100)
+                         city=tk.Label(t,text='Enter your City',bg='black',fg='white',font='GOUDY 20')
+                         city.place(x=400,y=160)
+                         name_entry=tk.Entry(t,font='GOUDY 20',textvariable=car)
+                         name_entry.place(x=680,y=100)
+                         city_entry=tk.Entry(t,font='GOUDY 20',textvariable=location)
+                         city_entry.place(x=680,y=160)
+                         search=tk.Button(t,text='Seacrh',command=Search,bg='black',fg='white',font='GOUDY 12 bold')
+                         search.place(x=680,y=220)
+                         text=tk.Text(t,bg='dark blue',fg='white',font='GOUDY 15 bold',pady=5,height=5,width=52)
+                         back1=tk.Button(t,text='Back',command=back01,bg='black',fg='white',font='GOUDY 12 bold')
+                         back1.place(x=600,y=220)
+                    def web_search():                            #function for searching directly on web browser.
+                         webbrowser.open('https://www.google.com')
+                    menu1=tk.Menu(t)
+                    my_menu1=tk.Menu(menu1,tearoff=0)
+                    my_menu_1=tk.Menu(my_menu1,tearoff=0)
+                    my_menu_1.add_command(label='Santro',command=santro)
+                    my_menu_1.add_command(label='Grand i10',command=grand_i10)
+                    my_menu_1.add_command(label='Grand i10 NIOS',command=grand_i10_nios)
+                    my_menu_1.add_command(label='Elite i20',command=elite_i20)
+                    my_menu_1.add_command(label='Aura',command=aura)
+                    my_menu_1.add_command(label='Xcent',command=xcent)
+                    my_menu_1.add_command(label='Verna',command=verna)
+                    my_menu_1.add_command(label='Elentra',command=elentra)
+                    my_menu_1.add_command(label='Venue',command=venue)
+                    my_menu_1.add_command(label='Creta',command=creta)
+                    my_menu_1.add_command(label='Tucson',command=tucson)
+                    my_menu_1.add_command(label='Kona Electric',command=kona_elec)
+                    my_menu1.add_cascade(label='HYUNDAI',menu=my_menu_1)
+                    menu1.add_cascade(label='New Car',menu=my_menu1)
+                    menu1.add_command(label='Repair',command=repair)
+                    menu1.add_command(label='Web Search',command=web_search)
+                    menu1.add_command(label='Exit',command=t.destroy)
+                    t.config(menu=menu1)
+          else:
+               user_input1.delete(0,'end')
+               user_input2.delete(0,'end')
+               msg.showerror(title='ERROR',message='Please Check Your E-mail & Password')
+
+     title=tk.Frame(t)
+     tk.Label(title,text='Log In',bg='black',fg='white',font='GOUDY 50 bold').pack()
+     title.pack()
+     user_input1=tk.Entry(t,font='GOUDY 20')
+     user_input1.place(x=750,y=220)
+     user_input2=tk.Entry(t,font='GOUDY 20')
+     user_input2.place(x=750,y=300)
+     inputs=tk.Frame(t,bg='black')
+     e_mail=tk.Label(inputs,text='E-mail Id ',bg='black',fg='white',font='GOUDY 20',pady=20)
+     e_mail.pack()
+     passwd=tk.Label(inputs,text='Password ',bg='black',fg='white',font='GOUDY 20',pady=20)
+     passwd.pack()
+     inputs.place(x=600,y=200)
+     log=tk.Button(t,text='Log In',bg='black',fg='white',command=log_in,font='GOUDY 20 bold')
+     log.place(x=750,y=350)
+
+
+title_sign=tk.Frame(t,bg='black')
+tk.Label(title_sign,text='HYUNDAI MOTORS',fg='white',bg='black',font='Goudy 60 underline').pack(fill='x')
+title_sign.pack(fill='x')
+l=tk.Label(t,text='Sign Up',fg='white',bg='black',font='GOUDY 45 bold')
+l.place(x=600,y=200)
+inputs_sign=tk.Frame(t,bg='black')
+tk.Label(inputs_sign,text='Name ',fg='white',bg='black',font='GOUDY 20').pack()
+tk.Label(inputs_sign,text='E-mail Id ',fg='white',bg='black',font='GOUDY 20',pady=20).pack()
+tk.Label(inputs_sign,text='Phone No.',fg='white',bg='black',font='GOUDY 20').pack()
+tk.Label(inputs_sign,text='Password ',fg='white',bg='black',font='GOUDY 20',pady=20).pack()
+inputs_sign.place(x=520,y=300)
+n=tk.StringVar()
+e=tk.StringVar()
+p=tk.StringVar()
+pas=tk.StringVar()
+e1=tk.Entry(t,textvariable=n,font='GOUDY 20 bold')
+e1.place(x=670,y=300)
+e2=tk.Entry(t,textvariable=e,font='GOUDY 20 bold')
+e2.place(x=670,y=360)
+e3=tk.Entry(t, textvariable=p,font='GOUDY 20 bold')
+e3.place(x=670,y=420)
+e4=tk.Entry(t, textvariable=pas,font='GOUDY 20 bold')
+e4.place(x=670,y=480)
+sign=tk.Button(t,text='Sign Up',fg='white',bg='black',command=sign_up,font='GOUDY 20 bold')
+sign.place(x=670,y=540)
+log_ask=tk.Frame(t,bg='black')
+log_text=tk.Label(log_ask,text='Already sign in --',fg='white',bg='black',font='GOUDY 15 underline')
+log_text.pack(side='left')
+log_sign=tk.Button(log_ask,text='Log In',fg='white',bg='black',command=log,font='GOUDY 15 bold ')
+log_sign.pack(side='right')
+log_ask.place(x=670,y=600)
+t.mainloop()                  #creating infinite loop to run tk window
